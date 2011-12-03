@@ -6,6 +6,12 @@
   <artifactId>cluster</artifactId>
   <version>0.1</version>
   <packaging>jar</packaging>
+  <licenses>
+    <license>
+      <name>GPLv3</name>
+      <url>http://www.gnu.org/licenses/gpl.txt</url>            
+    </license>
+  </licenses>
   <build>
     <plugins>
       <plugin>
