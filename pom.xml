@@ -85,7 +85,7 @@
   </reporting>
   <scm>
     <url>https://github.com/trickl/trickl-cluster</url>
-    <connection>scm:git:ssh://git@github.com/trickl/trickl-cluster.git</connection>
+    <connection>scm:git://github.com/trickl/trickl-cluster.git</connection>
   </scm>
   <dependencies>
     <dependency>
