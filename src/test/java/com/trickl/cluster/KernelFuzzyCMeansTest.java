@@ -24,14 +24,13 @@ import com.trickl.cluster.KernelFuzzyCMeans;
 import com.trickl.cluster.stats.Partition;
 import cern.colt.matrix.DoubleMatrix2D;
 import cern.colt.matrix.impl.DenseDoubleMatrix2D;
-import cern.jet.random.engine.MersenneTwister;
-import cern.jet.random.engine.RandomEngine;
 import com.trickl.dataset.GaussianCircles2D;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import org.junit.Test;
+import org.apache.commons.math3.random.MersenneTwister;
 
 public class KernelFuzzyCMeansTest {
 
@@ -42,17 +41,16 @@ public class KernelFuzzyCMeansTest {
    @Test
    public void ClusterGaussianCircles() throws IOException
    {
-      RandomEngine randomEngine = new MersenneTwister(123456789);
       GaussianCircles2D gaussianCircles = new GaussianCircles2D();
       gaussianCircles.setRadiusStd(0.20);
-      gaussianCircles.setRandomEngine(randomEngine);
+      gaussianCircles.setRandomGenerator(new MersenneTwister(123456789));
 
       DoubleMatrix2D data = gaussianCircles.generate(100);      
       DoubleMatrix2D kernel = new DenseDoubleMatrix2D(data.rows(), data.rows());
       data.zMult(data, kernel, 1, 0, false, true);
 
       KernelFuzzyCMeans kfcm = new KernelFuzzyCMeans();
-      kfcm.setRandomEngine(randomEngine);
+      kfcm.setRandomGenerator(new MersenneTwister(123456789));
       kfcm.cluster(kernel, 3);
 
       DoubleMatrix2D partition = kfcm.getPartition();

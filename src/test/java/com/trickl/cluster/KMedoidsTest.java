@@ -23,14 +23,13 @@ package com.trickl.cluster;
 import com.trickl.cluster.KMedoids;
 import com.trickl.cluster.stats.Partition;
 import cern.colt.matrix.DoubleMatrix2D;
-import cern.jet.random.engine.MersenneTwister;
-import cern.jet.random.engine.RandomEngine;
 import com.trickl.dataset.GaussianCircles2D;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import org.junit.Test;
+import org.apache.commons.math3.random.MersenneTwister;
 
 public class KMedoidsTest {
 
@@ -42,13 +41,12 @@ public class KMedoidsTest {
    {
       GaussianCircles2D gaussianCircles = new GaussianCircles2D();
       // Set seed for repeatable results
-      RandomEngine randomEngine = new MersenneTwister(123456789);
-      gaussianCircles.setRandomEngine(randomEngine);
+      gaussianCircles.setRandomGenerator(new MersenneTwister(123456789));
       gaussianCircles.setRadiusStd(0.20);
       DoubleMatrix2D data = gaussianCircles.generate(100);
 
       KMedoids km = new KMedoids();
-      km.setRandomEngine(randomEngine);
+      km.setRandomGenerator(new MersenneTwister(123456789));
       km.cluster(data, 3);
 
       DoubleMatrix2D partition = km.getPartition();

@@ -21,16 +21,16 @@
 package com.trickl.cluster;
 
 import cern.colt.matrix.DoubleMatrix2D;
-import cern.jet.random.Uniform;
-import cern.jet.random.engine.MersenneTwister;
-import cern.jet.random.engine.RandomEngine;
+import org.apache.commons.math3.distribution.UniformIntegerDistribution;
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 
 public class HardRandomPartitionGenerator implements PartitionGenerator {
 
-   private RandomEngine randomEngine;
+   private RandomGenerator randomGenerator;
 
    public HardRandomPartitionGenerator() {
-      randomEngine = new MersenneTwister();
+      randomGenerator = new MersenneTwister();
    }
 
    @Override
@@ -38,22 +38,22 @@ public class HardRandomPartitionGenerator implements PartitionGenerator {
       // Initialise U randomly
       partition.assign(0);
 
-      Uniform uniform = new Uniform(randomEngine);
+      UniformIntegerDistribution uniform = new UniformIntegerDistribution(randomGenerator, 0, partition.columns() - 1);
 
       for (int i = 0; i < partition.rows(); ++i)
       {
          // Randomise
-         int k = uniform.nextIntFromTo(0, partition.columns() - 1);
+         int k = uniform.sample();
          partition.setQuick(i, k, 1);
       }
    }
 
-   public RandomEngine getRandomEngine() {
-      return randomEngine;
+   public RandomGenerator getRandomGenerator() {
+      return randomGenerator;
    }
 
    @Override
-   public void setRandomEngine(RandomEngine random) {
-      this.randomEngine = random;
+   public void setRandomGenerator(RandomGenerator random) {
+      this.randomGenerator = random;
    }
 }

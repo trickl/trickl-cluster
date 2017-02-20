@@ -23,14 +23,13 @@ package com.trickl.cluster;
 import com.trickl.cluster.FuzzyCMeans;
 import com.trickl.cluster.stats.Partition;
 import cern.colt.matrix.DoubleMatrix2D;
-import cern.jet.random.engine.MersenneTwister;
-import cern.jet.random.engine.RandomEngine;
 import com.trickl.dataset.GaussianCircles2D;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import org.junit.Test;
+import org.apache.commons.math3.random.MersenneTwister;
 
 public class FuzzyCMeansTest {
 
@@ -41,14 +40,13 @@ public class FuzzyCMeansTest {
    @Test
    public void ClusterGaussianCircles() throws IOException
    {
-      RandomEngine randomEngine = new MersenneTwister(123456789);
       GaussianCircles2D gaussianCircles = new GaussianCircles2D();
       gaussianCircles.setRadiusStd(0.20);
-      gaussianCircles.setRandomEngine(randomEngine);
+      gaussianCircles.setRandomGenerator(new MersenneTwister(123456789));
       DoubleMatrix2D data = gaussianCircles.generate(100);
 
       FuzzyCMeans fcm = new FuzzyCMeans();      
-      fcm.setRandomEngine(randomEngine);
+      fcm.setRandomGenerator(new MersenneTwister(123456789));
       fcm.cluster(data, 3);
 
       DoubleMatrix2D partition = fcm.getPartition();

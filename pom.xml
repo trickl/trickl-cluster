@@ -1,6 +1,12 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <name>Trickl Cluster Library</name>
+  <parent>
+     <groupId>com.trickl</groupId>
+     <artifactId>parent</artifactId>
+     <version>0.1-SNAPSHOT</version>
+     <relativePath>../parent/pom.xml</relativePath>
+  </parent>
   <description>
     This is a Java library that provides several popular clustering algorithms.
   </description>
@@ -93,6 +99,11 @@
       <artifactId>junit</artifactId>
       <version>4.8.2</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math3</artifactId>
+      <version>${commons.math3.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>

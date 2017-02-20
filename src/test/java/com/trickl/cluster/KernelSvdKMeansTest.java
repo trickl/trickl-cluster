@@ -24,8 +24,6 @@ import com.trickl.cluster.KernelSvdKMeans;
 import com.trickl.cluster.stats.Partition;
 import cern.colt.matrix.DoubleMatrix2D;
 import cern.colt.matrix.impl.DenseDoubleMatrix2D;
-import cern.jet.random.engine.MersenneTwister;
-import cern.jet.random.engine.RandomEngine;
 import com.trickl.dataset.GaussianCircles2D;
 import com.trickl.matrix.ColtSvdAlgorithm;
 import com.trickl.matrix.SingularValueDecompositionAlgorithm;
@@ -34,6 +32,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import org.junit.Test;
+import org.apache.commons.math3.random.MersenneTwister;
 
 public class KernelSvdKMeansTest {
 
@@ -46,8 +45,7 @@ public class KernelSvdKMeansTest {
       GaussianCircles2D gaussianCircles = new GaussianCircles2D();
 
       // Set random engine seed for test repeatability
-      RandomEngine randomEngine = new MersenneTwister(123456789);
-      gaussianCircles.setRandomEngine(randomEngine);
+      gaussianCircles.setRandomGenerator(new MersenneTwister(123456789));
       gaussianCircles.setRadiusStd(0.20);
 
       DoubleMatrix2D data = gaussianCircles.generate(100);
@@ -61,7 +59,7 @@ public class KernelSvdKMeansTest {
       DoubleMatrix2D V = svdAlgorithm.getV();
 
       KernelSvdKMeans ksvdkm = new KernelSvdKMeans();
-      ksvdkm.setRandomEngine(randomEngine);
+      ksvdkm.setRandomGenerator(new MersenneTwister(123456789));
   
       // Truncate the SVD
       int clusters = 3;

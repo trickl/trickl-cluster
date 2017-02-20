@@ -26,8 +26,8 @@ import cern.colt.matrix.DoubleMatrix2D;
 import cern.colt.matrix.impl.DenseDoubleMatrix1D;
 import cern.colt.matrix.impl.DenseDoubleMatrix2D;
 import cern.colt.matrix.impl.SparseDoubleMatrix2D;
-import cern.jet.random.engine.MersenneTwister;
-import cern.jet.random.engine.RandomEngine;
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 
 /**
  * See Graph Nodes Clustering based on the Commute-Time Kernel
@@ -38,7 +38,7 @@ public class KernelSvdKMeans {
    private DoubleMatrix2D prototypeVectors;
    private DoubleMatrix2D partition;
    private int maxIterations = 1000;
-   private RandomEngine randomEngine = new MersenneTwister();
+   private RandomGenerator randomGenerator = new MersenneTwister();
    private PartitionGenerator partitionGenerator = new HardRandomPartitionGenerator();
 
    public KernelSvdKMeans() {
@@ -53,7 +53,7 @@ public class KernelSvdKMeans {
       final int p = singularValues.length;
 
       partition = new SparseDoubleMatrix2D(n, clusters);
-      partitionGenerator.setRandomEngine(randomEngine);
+      partitionGenerator.setRandomGenerator(randomGenerator);
       partitionGenerator.generate(partition);
 
       prototypeVectors = new SparseDoubleMatrix2D(n, clusters);
@@ -176,11 +176,11 @@ public class KernelSvdKMeans {
       this.maxIterations = maxIterations;
    }
 
-   public RandomEngine getRandomEngine() {
-      return randomEngine;
+   public RandomGenerator getRandomGenerator() {
+      return randomGenerator;
    }
 
-   public void setRandomEngine(RandomEngine random) {
-      this.randomEngine = random;
+   public void setRandomGenerator(RandomGenerator random) {
+      this.randomGenerator = random;
    }
 }

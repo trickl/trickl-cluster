@@ -21,15 +21,15 @@
 package com.trickl.cluster;
 
 import cern.colt.matrix.DoubleMatrix2D;
-import cern.jet.random.engine.MersenneTwister;
-import cern.jet.random.engine.RandomEngine;
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 
 public class FuzzyRandomPartitionGenerator implements PartitionGenerator {
 
-   private RandomEngine randomEngine;
+   private RandomGenerator randomGenerator;
 
    public FuzzyRandomPartitionGenerator() {
-      randomEngine = new MersenneTwister();
+      randomGenerator = new MersenneTwister();
    }
 
    @Override
@@ -38,7 +38,7 @@ public class FuzzyRandomPartitionGenerator implements PartitionGenerator {
          // Randomise
          double sum = 0;
          for (int k = 0; k < partition.columns(); ++k) {
-            double u = randomEngine.nextDouble();
+            double u = randomGenerator.nextDouble();
             partition.setQuick(i, k, u);
             sum += u;
          }
@@ -50,12 +50,12 @@ public class FuzzyRandomPartitionGenerator implements PartitionGenerator {
       }
    }
 
-   public RandomEngine getRandomEngine() {
-      return randomEngine;
+   public RandomGenerator getRandomGenerator() {
+      return randomGenerator;
    }
 
    @Override
-   public void setRandomEngine(RandomEngine random) {
-      this.randomEngine = random;
+   public void setRandomGenerator(RandomGenerator random) {
+      this.randomGenerator = random;
    }
 }

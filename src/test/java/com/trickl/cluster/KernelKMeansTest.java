@@ -24,13 +24,12 @@ import com.trickl.cluster.KernelKMeans;
 import com.trickl.cluster.stats.Partition;
 import cern.colt.matrix.DoubleMatrix2D;
 import cern.colt.matrix.impl.DenseDoubleMatrix2D;
-import cern.jet.random.engine.MersenneTwister;
-import cern.jet.random.engine.RandomEngine;
 import com.trickl.dataset.GaussianCircles2D;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import org.junit.Test;
+import org.apache.commons.math3.random.MersenneTwister;
 
 public class KernelKMeansTest {
 
@@ -43,8 +42,7 @@ public class KernelKMeansTest {
       GaussianCircles2D gaussianCircles = new GaussianCircles2D();
 
       // Set random engine seed for test repeatability
-      RandomEngine randomEngine = new MersenneTwister(123456789);
-      gaussianCircles.setRandomEngine(randomEngine);
+      gaussianCircles.setRandomGenerator(new MersenneTwister(123456789));
       gaussianCircles.setRadiusStd(0.20);
 
       DoubleMatrix2D data = gaussianCircles.generate(100);
@@ -52,7 +50,7 @@ public class KernelKMeansTest {
       data.zMult(data, kernel, 1, 0, false, true);
 
       KernelKMeans kkm = new KernelKMeans();
-      kkm.setRandomEngine(randomEngine);
+      kkm.setRandomGenerator(new MersenneTwister(123456789));
       kkm.cluster(kernel, 3);
 
       DoubleMatrix2D partition = kkm.getPartition();

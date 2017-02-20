@@ -25,8 +25,9 @@ import cern.colt.matrix.DoubleMatrix2D;
 import cern.colt.matrix.doublealgo.Statistic;
 import cern.colt.matrix.doublealgo.Statistic.VectorVectorFunction;
 import cern.colt.matrix.impl.SparseDoubleMatrix2D;
-import cern.jet.random.engine.MersenneTwister;
-import cern.jet.random.engine.RandomEngine;
+import org.apache.commons.math3.distribution.UniformIntegerDistribution;
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 
 /**
  * Also known as: PAM (Partitioning around medoids) 
@@ -42,7 +43,7 @@ public class KMedoids implements ClusterAlgorithm {
    
    private DoubleMatrix2D partition;
    private int maxIterations = 1000;
-   private RandomEngine randomEngine = new MersenneTwister();
+   private RandomGenerator randomGenerator = new MersenneTwister();
    private IntArrayList medoids;
    private VectorVectorFunction distanceMeasure = Statistic.EUCLID;
 
@@ -65,7 +66,8 @@ public class KMedoids implements ClusterAlgorithm {
       // Choose the medoids by shuffling the data
       for (int i = 0; i < clusters; ++i) {
          // k is the index of the remaining possibilities
-         int k = n - randomEngine.nextInt() % (n - i);
+         UniformIntegerDistribution uniform = new UniformIntegerDistribution(randomGenerator, i, clusters - 1);
+         int k = uniform.sample();
 
          // Swap x(i) and x(k)
          int medoid = randomOrdering.getQuick(k);
@@ -154,12 +156,12 @@ public class KMedoids implements ClusterAlgorithm {
       this.maxIterations = maxIterations;
    }
 
-   public RandomEngine getRandomEngine() {
-      return randomEngine;
+   public RandomGenerator getRandomGenerator() {
+      return randomGenerator;
    }
 
-   public void setRandomEngine(RandomEngine random) {
-      this.randomEngine = random;
+   public void setRandomGenerator(RandomGenerator random) {
+      this.randomGenerator = random;
    }
 
    public VectorVectorFunction getDistanceMeasure() {

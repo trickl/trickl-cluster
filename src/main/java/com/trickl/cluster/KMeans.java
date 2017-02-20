@@ -25,15 +25,15 @@ import cern.colt.matrix.doublealgo.Statistic;
 import cern.colt.matrix.doublealgo.Statistic.VectorVectorFunction;
 import cern.colt.matrix.impl.DenseDoubleMatrix2D;
 import cern.colt.matrix.impl.SparseDoubleMatrix2D;
-import cern.jet.random.engine.MersenneTwister;
-import cern.jet.random.engine.RandomEngine;
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 
 public class KMeans implements ClusterAlgorithm {
 
    private DoubleMatrix2D means;
    private DoubleMatrix2D partition;
    private int maxIterations = 1000;
-   private RandomEngine randomEngine = new MersenneTwister();
+   private RandomGenerator randomGenerator = new MersenneTwister();
    private PartitionGenerator partitionGenerator = new HardRandomPartitionGenerator();
    private VectorVectorFunction distanceMeasure = Statistic.EUCLID;
 
@@ -46,7 +46,7 @@ public class KMeans implements ClusterAlgorithm {
       int p = data.columns(); // Dimensions of features
 
       partition = new SparseDoubleMatrix2D(n, clusters);
-      partitionGenerator.setRandomEngine(randomEngine);
+      partitionGenerator.setRandomGenerator(randomGenerator);
       partitionGenerator.generate(partition);
 
       means = new DenseDoubleMatrix2D(p, clusters);
@@ -126,12 +126,12 @@ public class KMeans implements ClusterAlgorithm {
       this.maxIterations = maxIterations;
    }
 
-   public RandomEngine getRandomEngine() {
-      return randomEngine;
+   public RandomGenerator getRandomGenerator() {
+      return randomGenerator;
    }
 
-   public void setRandomEngine(RandomEngine random) {
-      this.randomEngine = random;
+   public void setRandomGenerator(RandomGenerator random) {
+      this.randomGenerator = random;
    }
 
    public VectorVectorFunction getDistanceMeasure() {
