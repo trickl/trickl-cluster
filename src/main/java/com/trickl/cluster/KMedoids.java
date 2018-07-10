@@ -110,9 +110,9 @@ public class KMedoids implements ClusterAlgorithm {
 
             // For each non-medoid in the cluster
             int medoid = medoids.getQuick(k);
+            double lowestCostDelta = 0;
             for (int i = 0; i < n; ++i) {
                int bestMedoid = medoid;
-               double lowestCostDelta = 0;
                if (i != medoid && partition.getQuick(i, k) > 0) {
                   // Calculate the change in cost by swapping this configuration
                   int costDelta = 0;
